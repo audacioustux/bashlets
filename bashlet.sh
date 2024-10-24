@@ -79,7 +79,7 @@ install_bashlet() {
     
     # Download the script from GitHub, append .sh
     local download_url="$github_repo/$script_path.sh"
-    curl -fsSL "$download_url" -o "$install_dir/$script_name.sh"
+    curl -sSL "$download_url" -o "$install_dir/$script_name.sh"
 
     if [[ $? -ne 0 ]]; then
         echo "Error downloading $script_name.sh from $download_url"
