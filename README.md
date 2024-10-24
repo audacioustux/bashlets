@@ -5,7 +5,7 @@ Simple git based script registry
 ## Install
 
 ```bash
-curl -sSL https://github.com/audacioustux/bashlets/raw/refs/heads/main/bashlet.sh | bash -s install bashlet
+curl -sSL https://raw.githubusercontent.com/audacioustux/bashlets/main/bashlet.sh | bash -s install bashlet
 ```
 
 > **Make sure $HOME/.local/bin is in $PATH**
