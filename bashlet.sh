@@ -6,7 +6,7 @@ __usage() {
 
 Bashlet Installer and Executor
 
-Install a script from a GitHub repository and execute it. 
+Install a script from a GitHub repository and execute it.
 
 Usage: bashlet [-h] install <path/to/script> | exec <path/to/script> -- <args>
 Options:
@@ -74,6 +74,9 @@ install_bashlet() {
     local github_repo="https://raw.githubusercontent.com/audacioustux/bashlets/main"
     local install_dir="$HOME/.local/bin"
     
+    # Create the directory if it doesn't exist
+    mkdir -p "$install_dir"
+    
     # Download the script from GitHub, append .sh
     local download_url="$github_repo/$script_path.sh"
     curl -fsSL "$download_url" -o "$install_dir/$script_name.sh"
@@ -87,7 +90,7 @@ install_bashlet() {
     chmod +x "$install_dir/$script_name.sh"
 
     # Create symlink without the .sh extension
-    ln -s "$install_dir/$script_name.sh" "$install_dir/$script_name"
+    ln -sf "$install_dir/$script_name.sh" "$install_dir/$script_name"
 
     echo "$script_name installed and symlinked to $install_dir/$script_name"
 }
