@@ -71,7 +71,7 @@ install_bashlet() {
     local script_path="$1"
     local script_name=$(basename "$script_path")
     
-    local github_repo="https://github.com/audacioustux/bashlets"
+    local github_repo="https://raw.githubusercontent.com/audacioustux/bashlets/main"
     local install_dir="$HOME/.local/bin"
     
     # Download the script from GitHub, append .sh
