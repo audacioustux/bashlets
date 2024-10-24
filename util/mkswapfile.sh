@@ -6,36 +6,27 @@ __usage() {
 
 Swapfile Creator
 
-This script creates a swapfile with a configurable size and location. By default,
-the size is set to 1/4th of the available RAM, and if multiple locations are provided,
-the swap is split evenly across all those paths.
+This script creates a swapfile with a configurable size and location. If multiple locations
+are provided, the swap size is split evenly across all the paths.
 
-Usage: mkswap.sh [-h] [-s SIZE] [-l LOCATIONS...]
+Usage: mkswapfile.sh [-h] -s SIZE [-l LOCATIONS...]
 Options:
   -h, --help            show this help message and exit
-  -s SIZE, --size SIZE  total size of swapfile(s), default is 1/4th of the available RAM
+  -s SIZE, --size SIZE  total size of swapfile(s), this option is mandatory
   -l LOCATIONS, --locations LOCATIONS
-                        space-separated list of locations for the swapfile(s)
+                        space-separated list of locations for the swapfile(s), default is /swapfile
 
 Examples:
-  mkswap.sh                # Creates a swapfile with default size in /swapfile
-  mkswap.sh -s 4G -l /swapfile1 /swapfile2
-  mkswap.sh -l /swapfile    # Creates swapfile in the specified location
+  mkswapfile.sh -s 4G                # Creates a 4G swapfile in /swapfile
+  mkswapfile.sh -s 4G -l /swapfile1 /swapfile2   # Split 4G across two locations
+  mkswapfile.sh -s 2G -l /custom_swapfile        # Creates a 2G swapfile in the specified location
 
 EOF
 }
 
-# Function to calculate total RAM and 1/4th of it
-__get_default_size() {
-    local total_ram_kb
-    total_ram_kb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-    # Convert KB to MB and calculate 1/4th of RAM
-    echo $((total_ram_kb / 1024 / 4))
-}
-
 # Parse command line arguments
 __parse_args() {
-    SWAP_SIZE=$( __get_default_size )M  # Default size is 1/4th of RAM
+    SWAP_SIZE=""
     LOCATIONS=("/swapfile")  # Default swapfile location
 
     while [[ $# -gt 0 ]]; do
@@ -63,6 +54,12 @@ __parse_args() {
                 ;;
         esac
     done
+
+    if [[ -z "$SWAP_SIZE" ]]; then
+        echo "Error: You must specify a swap size with the -s option."
+        __usage
+        exit 1
+    fi
 }
 
 # Function to create swapfile at a given location with a given size
