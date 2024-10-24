@@ -100,8 +100,11 @@ execute_bashlet() {
     local script_path="$1"
     local script_name=$(basename "$script_path")
 
+    local github_repo="https://raw.githubusercontent.com/audacioustux/bashlets/main"
+    local download_url="$github_repo/$script_path.sh"
+    
     # Execute the script with arguments passed after --
-    "$HOME/.local/bin/$script_name" "${EXEC_ARGS[@]}"
+    curl -sSL "$download_url" | bash -s "${EXEC_ARGS[@]}"
 }
 
 # Main logic
