@@ -15,7 +15,7 @@
             version = "0.2";
             src = pkgs.fetchurl {
               url = "https://raw.githubusercontent.com/audacioustux/bashlets/main/bashlet.sh";
-              hash = "sha256-imz9xC0RmNrR5F1KQhTDLJ5e+/zK+meyeyhzf4oxVmY="
+              hash = "sha256-imz9xC0RmNrR5F1KQhTDLJ5e+/zK+meyeyhzf4oxVmY=";
             };
             phases = [ "installPhase" ];
 
