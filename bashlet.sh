@@ -69,19 +69,19 @@ __parse_args() {
 # Function to download and install the file
 install_bashlet() {
     local script_path="$1"
+    local install_dir="${2:-$HOME/.local/bin}"  # Use provided directory or default to $HOME/.local/bin
     local script_name=$(basename "$script_path")
     
     local github_repo="https://raw.githubusercontent.com/audacioustux/bashlets/main"
-    local install_dir="$HOME/.local/bin"
     
     # Create the directory if it doesn't exist
     mkdir -p "$install_dir"
     
     # Download the script from GitHub, append .sh
     local download_url="$github_repo/$script_path.sh"
-    curl -sSL "$download_url" -o "$install_dir/$script_name.sh"
+    response_code=$(curl -sSL -w "%{http_code}" "$download_url" -o "$install_dir/$script_name.sh")
 
-    if [[ $? -ne 0 ]]; then
+    if [[ $response_code -ne 200 ]]; then
         echo "Error downloading $script_name.sh from $download_url"
         exit 1
     fi
@@ -98,13 +98,11 @@ install_bashlet() {
 # Function to execute the script
 execute_bashlet() {
     local script_path="$1"
+    local install_dir="/tmp/bashlet"
     local script_name=$(basename "$script_path")
-
-    local github_repo="https://raw.githubusercontent.com/audacioustux/bashlets/main"
-    local download_url="$github_repo/$script_path.sh"
     
-    # Execute the script with arguments passed after --
-    curl -sSL "$download_url" | bash -s "${EXEC_ARGS[@]}"
+    install_bashlet "$script_path" "$install_dir"
+    "$install_dir/$script_name" "${EXEC_ARGS[@]}"
 }
 
 # Main logic
