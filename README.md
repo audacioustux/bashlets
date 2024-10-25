@@ -8,6 +8,12 @@ Simple git based script registry
 curl -sSL https://raw.githubusercontent.com/audacioustux/bashlets/main/bashlet.sh | bash -s install bashlet
 ```
 
+### Nix (flakes)
+
+```bash
+nix profile install github:audacioustux/bashlets
+```
+
 > **Make sure $HOME/.local/bin is in $PATH**
 
 ## Update
