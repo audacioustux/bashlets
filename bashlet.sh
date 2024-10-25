@@ -71,7 +71,8 @@ install_bashlet() {
     local script_path="$1"
     local install_dir="${2:-$HOME/.local/bin}"  # Use provided directory or default to $HOME/.local/bin
     local script_name=$(basename "$script_path")
-    
+    local local_path="$install_dir/$script_name"
+ 
     local github_repo="https://raw.githubusercontent.com/audacioustux/bashlets/main"
     
     # Create the directory if it doesn't exist
@@ -79,7 +80,7 @@ install_bashlet() {
     
     # Download the script from GitHub, append .sh
     local download_url="$github_repo/$script_path.sh"
-    response_code=$(curl -sSL -w "%{http_code}" "$download_url" -o "$install_dir/$script_name.sh")
+    response_code=$(curl -sSL -w "%{http_code}" "$download_url" -o "$local_path.sh")
 
     if [[ $response_code -ne 200 ]]; then
         echo "Error downloading $script_name.sh from $download_url"
@@ -87,12 +88,12 @@ install_bashlet() {
     fi
 
     # Make it executable
-    chmod +x "$install_dir/$script_name.sh"
+    chmod +x "$local_path.sh"
 
     # Create symlink without the .sh extension
-    ln -sf "$install_dir/$script_name.sh" "$install_dir/$script_name"
+    ln -sf "$local_path.sh" "$local_path"
 
-    echo "$script_name installed and symlinked to $install_dir/$script_name"
+    echo "$local_path"
 }
 
 # Function to execute the script
@@ -110,7 +111,7 @@ __parse_args "$@"
 
 case "$COMMAND" in
     install)
-        install_bashlet "$SCRIPT_PATH"
+        echo "$SCRIPT_PATH installed and symlinked to" $(install_bashlet "$SCRIPT_PATH")
         ;;
     exec)
         execute_bashlet "$SCRIPT_PATH"
