@@ -102,8 +102,8 @@ execute_bashlet() {
     local install_dir="/tmp/bashlet"
     local script_name=$(basename "$script_path")
     
-    install_bashlet "$script_path" "$install_dir"
-    "$install_dir/$script_name" "${EXEC_ARGS[@]}"
+    local local_path=$(install_bashlet "$script_path" "$install_dir")
+    "$local_path" "${EXEC_ARGS[@]}"
 }
 
 # Main logic
