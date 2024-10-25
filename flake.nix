@@ -12,10 +12,10 @@
           default = bashlet;
           bashlet = pkgs.stdenv.mkDerivation {
             pname = "bashlet";
-            version = "0.1";
+            version = "0.2";
             src = pkgs.fetchurl {
               url = "https://raw.githubusercontent.com/audacioustux/bashlets/main/bashlet.sh";
-              hash = "sha256-G28QSmtsLJr/wCHqvqRi2dfM5HMjJ2ytnlVuKcQIvXE=";
+              sha256 = "0rjn6657ywr8gfr6gynazkxmx7icqca44jjxwk8xm60i5p2gsv4a";
             };
             phases = [ "installPhase" ];
 
